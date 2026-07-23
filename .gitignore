@@ -1,0 +1,6 @@
+.env
+.next
+data/hotel.db
+data/hotel.db-shm
+data/hotel.db-wal
+node_modules

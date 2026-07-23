@@ -1,0 +1,167 @@
+@import "tailwindcss";
+
+:root {
+  --ef-orange: #F5A623;
+  --ef-orange-dark: #E08600;
+  --ef-orange-light: #FFF4E0;
+  --ef-ink: #1f2430;
+  --ef-sidebar: #241c15;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  background: #f1f3f7;
+  color: #1f2430;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* thin premium scrollbar */
+::-webkit-scrollbar {
+  width: 9px;
+  height: 9px;
+}
+::-webkit-scrollbar-thumb {
+  background: #c9ccd6;
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #aeb2be;
+}
+
+.ef-card {
+  background: #fff;
+  border: 1px solid #e8eaf0;
+  border-radius: 16px;
+  box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04), 0 8px 24px -18px rgba(16, 24, 40, 0.35);
+}
+
+.ef-input {
+  width: 100%;
+  border: 1px solid #d8dbe4;
+  border-radius: 10px;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  background: #fff;
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.ef-input:focus {
+  border-color: var(--ef-orange);
+  box-shadow: 0 0 0 3px rgba(245, 166, 35, 0.18);
+}
+
+.ef-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  border-radius: 10px;
+  padding: 0.5rem 0.9rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+  border: 1px solid transparent;
+}
+.ef-btn-primary {
+  background: var(--ef-orange);
+  color: #fff;
+}
+.ef-btn-primary:hover {
+  background: var(--ef-orange-dark);
+}
+.ef-btn-ghost {
+  background: #fff;
+  border-color: #d8dbe4;
+  color: #3a4051;
+}
+.ef-btn-ghost:hover {
+  background: #f6f7fb;
+}
+
+.ef-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.15rem 0.6rem;
+  border-radius: 999px;
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  body {
+    background: #fff;
+  }
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color-adjust: exact !important;
+  }
+  .print-page {
+    box-shadow: none !important;
+    border: none !important;
+    margin: 0 !important;
+  }
+
+  /* يحرر المودال من fixed/overflow حتى يطبع المحتوى كامل مو بس الجزء الظاهر */
+  .print-modal {
+    position: static !important;
+    inset: auto !important;
+    overflow: visible !important;
+    background: #fff !important;
+    height: auto !important;
+    z-index: auto !important;
+  }
+  .print-modal-inner {
+    display: block !important;
+    padding: 0 !important;
+  }
+  .print-modal-doc {
+    box-shadow: none !important;
+  }
+
+  /*
+   * الحل القاطع لمشكلة "صفحة بيضاء أولى" عند طباعة الفاتورة/الإيصال:
+   * المودال يُضاف كـ portal مباشرة في نهاية <body>، أي بجانب بقية عناصر
+   * الصفحة (الشريط الجانبي، المحتوى الأساسي...). الاعتماد فقط على وسم
+   * كل عنصر بـ no-print غير موثوق (قد يُنسى عنصر). هذه القاعدة تخفي أي
+   * عنصر آخر في body عندما يكون .print-modal موجوداً في الصفحة، بغض
+   * النظر عمّا نسيت وسمه — لا يبقى شيء قابل للطباعة سوى المستند نفسه.
+   */
+  body:has(.print-modal) > *:not(.print-modal) {
+    display: none !important;
+  }
+}
+
+@keyframes ef-fade {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.ef-fade {
+  animation: ef-fade 0.35s ease both;
+}
+
+/* --------------------------------------------------------------------------
+ * RTL (Arabic) support. `dir="rtl"` is set on <html> by LocaleProvider
+ * (src/lib/i18n.tsx). This uses a font stack with good Arabic glyph
+ * coverage, and nudges line-height slightly for Arabic script readability.
+ * Component-level mirroring (sidebar side, content padding) is handled
+ * directly in the components via the `dir` value from useLocale(), not here.
+ * -------------------------------------------------------------------------- */
+[dir="rtl"] body {
+  font-family: "Segoe UI", Tahoma, Geneva, Arial, sans-serif;
+  line-height: 1.7;
+}
